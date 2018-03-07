@@ -18,15 +18,22 @@ describe Oystercard do
   end
 
   describe '#deduct' do
-    it 'deducts fare from balance' do
-      expect { subject.deduct(1) }.to change { subject.balance }.by(-1)
+    it 'deduct fare from balance' do
+      expect { subject.deduct(Oystercard::FARE) }.to change { subject.balance }.by(-1)
     end
   end
 
   describe '#touch_in' do
-    it 'returns touched in as true' do
-      expect { subject.touch_in }.to change { subject.touched_in }.to(true)
+    context 'when touched out' do
+      it 'returns touched in as true' do
+        expect { subject.touch_in }.to change { subject.touched_in }.to(true)
+      end
+
+      it 'deducts fare when touching in' do
+        expect { subject.touch_in }.to change { subject.balance }.by(-1)
+      end
     end
+
   end
 
   describe '#touch_out' do
@@ -42,7 +49,7 @@ describe Oystercard do
         expect(subject.in_journey?).to eq(false)
       end
     end
-    
+
     context 'when touched in' do
       it 'returns true' do
         subject.touch_in

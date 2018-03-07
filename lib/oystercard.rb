@@ -3,6 +3,7 @@ class Oystercard
 
   START_BALANCE = 5
   MAX_BALANCE = 90
+  FARE = 1
 
   def initialize
     @balance = START_BALANCE
@@ -20,6 +21,7 @@ class Oystercard
 
   def touch_in
     @touched_in = true
+    deduct(FARE)
   end
 
   def touch_out
