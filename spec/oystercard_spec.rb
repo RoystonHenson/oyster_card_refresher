@@ -19,7 +19,7 @@ describe Oystercard do
 
   describe '#deduct' do
     it 'deduct fare from balance' do
-      expect { subject.deduct(Oystercard::FARE) }.to change { subject.balance }.by(-1)
+      expect { subject.deduct(Oystercard::FARE) }.to change { subject.balance }.by(-Oystercard::FARE)
     end
   end
 
@@ -30,10 +30,14 @@ describe Oystercard do
       end
 
       it 'deducts fare when touching in' do
-        expect { subject.touch_in }.to change { subject.balance }.by(-1)
+        expect { subject.touch_in }.to change { subject.balance }.by(-Oystercard::FARE)
+      end
+
+      it 'raises error when balance less than minimum fare' do
+        allow(subject).to receive(:balance).and_return(0.99)
+        expect { subject.touch_in }.to raise_error('Not enough funds. Please top up.')
       end
     end
-
   end
 
   describe '#touch_out' do
