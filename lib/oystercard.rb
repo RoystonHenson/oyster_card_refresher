@@ -21,11 +21,11 @@ class Oystercard
     raise 'Not enough funds. Please top up.' if fare_low?
     @touched_in = true
     @entry_station = station
-    deduct(FARE)
   end
 
   def touch_out
     @touched_in = false
+    deduct(FARE)
     @entry_station = nil
   end
 
