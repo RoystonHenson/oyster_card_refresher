@@ -46,6 +46,11 @@ describe Oystercard do
       it 'deducts fare when touching out' do
         expect { subject.touch_in(station) }.to change { subject.balance }.by(-Oystercard::FARE)
       end
+
+      it 'resets entry station' do
+        subject.touch_in(station)
+        expect { subject.touch_out }.to change { subject.entry_station }.to(nil)
+      end
     end
   end
 
