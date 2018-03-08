@@ -2,6 +2,7 @@ require 'oystercard'
 
 describe Oystercard do
   let(:station) { double('Aldgate East') }
+  let(:station_2) { double('Tottenham Court Road') }
 
   describe '#initialize' do
     it 'initialises with a balance' do
@@ -40,17 +41,22 @@ describe Oystercard do
     context 'when touched in' do
       it 'touches out' do
         subject.touch_in(station)
-        expect { subject.touch_out }.to change { subject.in_journey? }.to(false)
+        expect { subject.touch_out(station_2) }.to change { subject.in_journey? }.to(false)
       end
 
       it 'deducts fare when touching out' do
         subject.touch_in(station)
-        expect { subject.touch_out }.to change { subject.balance }.by(-Oystercard::FARE)
+        expect { subject.touch_out(station_2) }.to change { subject.balance }.by(-Oystercard::FARE)
       end
 
       it 'resets entry station' do
         subject.touch_in(station)
-        expect { subject.touch_out }.to change { subject.entry_station }.to(nil)
+        expect { subject.touch_out(station_2) }.to change { subject.entry_station }.to(nil)
+      end
+
+      it 'saves exit station' do
+        subject.touch_in(station)
+        expect { subject.touch_out(station_2) }.to change { subject.exit_station }.to(station_2)
       end
     end
   end
