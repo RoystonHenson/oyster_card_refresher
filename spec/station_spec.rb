@@ -1,7 +1,10 @@
 require 'station'
 
 describe Station do
-  subject { described_class.new('Aldgate East', 1) }
+  test_station = YAML.load_file('stations.yml')['stations'][0]
+  test_name = test_station['name']
+  test_zone = test_station['zone']
+  subject { described_class.new(test_name, test_zone) }
 
   describe '#initialize' do
     it 'initialises with a name' do

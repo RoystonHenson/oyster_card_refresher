@@ -1,0 +1,7 @@
+stations:
+  -
+    name: 'Aldgate East'
+    zone: 1
+  -
+    name: 'Totenham Court Road'
+    zone: 1
