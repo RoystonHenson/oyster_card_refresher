@@ -8,6 +8,15 @@ describe Oystercard do
     it 'initialises with a balance' do
       expect(subject.balance).to eq(Oystercard::START_BALANCE)
     end
+
+    it 'initialises with empty list of journeys' do
+      expect(subject.journeys).to eq([])
+    end
+
+    it 'initialises with empty current journey' do
+      expect(subject.current_journey[:'entry station']).to eq(nil)
+      expect(subject.current_journey[:'exit station']).to eq(nil)
+    end
   end
 
   describe '#top_up' do
@@ -32,7 +41,7 @@ describe Oystercard do
       end
 
       it 'saves entry station' do
-        expect { subject.touch_in(station) }.to change { subject.entry_station }.to(station)
+        expect { subject.touch_in(station) }.to change { subject.current_journey[:'entry station'] }.to(station)
       end
     end
   end
@@ -51,12 +60,19 @@ describe Oystercard do
 
       it 'resets entry station' do
         subject.touch_in(station)
-        expect { subject.touch_out(station_2) }.to change { subject.entry_station }.to(nil)
+        expect { subject.touch_out(station_2) }.to change { subject.current_journey[:'entry station'] }.to(nil)
       end
 
       it 'saves exit station' do
         subject.touch_in(station)
-        expect { subject.touch_out(station_2) }.to change { subject.exit_station }.to(station_2)
+        subject.touch_out(station_2)
+        expect(subject.journeys.last[:'exit station']).to eq(station_2)
+      end
+
+      it 'saves complete journey' do
+        subject.touch_in(station)
+        subject.touch_out(station_2)
+        expect(subject.journeys).to include({'entry station': station, 'exit station': station_2})
       end
     end
   end
