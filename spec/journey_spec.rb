@@ -16,4 +16,10 @@ describe Journey do
       expect(subject.current_journey[:end]).to eq(station)
     end
   end
+
+  describe '#calculate_fare' do
+    it 'returns fare for the journey' do
+      expect(subject.calculate_fare).to eq(Journey::FARE)
+    end
+  end
 end
