@@ -1,13 +1,19 @@
 class Journey
   attr_reader :current_journey, :fare, :in_journey, :journey_history
 
-  FARE = 2.4
+  MIN_FARE = 2.4
+  PENALTY_FARE = 6
+
+  @@journey_history = []
 
   def initialize(start_location)
     @in_journey = true
     @current_journey = { start: nil, end: nil }
     current_journey[:start] = start_location
-    @journey_history = []
+  end
+
+  def self.journey_history
+    @@journey_history
   end
 
   def finish(end_location)
@@ -16,10 +22,10 @@ class Journey
   end
 
   def calculate_fare
-    @fare = FARE
+    current_journey[:start].nil? || current_journey[:end].nil? ? @fare = PENALTY_FARE : @fare = MIN_FARE
   end
 
   def in_journey?
-    p in_journey
+    in_journey
   end
 end

@@ -27,8 +27,13 @@ describe Journey do
   end
 
   describe '#calculate_fare' do
-    it 'returns fare for the journey' do
-      expect(subject.calculate_fare).to eq(Journey::FARE)
+    it 'returns minimum fare for the journey' do
+      subject.finish(end_station)
+      expect(subject.calculate_fare).to eq(Journey::MIN_FARE)
+    end
+
+    it 'returns penalty fare when start or end of journey is nil' do
+      expect(subject.calculate_fare).to eq(Journey::PENALTY_FARE)
     end
   end
 
@@ -48,7 +53,7 @@ describe Journey do
   end
 
   it 'has an empty list of journeys' do
-    expect(subject.journey_history).to eq([])
+    expect(described_class.journey_history).to eq([])
   end
 
 

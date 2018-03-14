@@ -6,7 +6,7 @@ class Oystercard
 
   START_BALANCE = 5
   MAX_BALANCE = 90
-  MIN_FARE = 1
+  MIN_BALANCE = 1
 
   def initialize
     @balance = START_BALANCE
@@ -19,19 +19,19 @@ class Oystercard
   end
 
   def touch_in(station)
-    raise 'Not enough funds. Please top up.' if fare_low?
+    raise 'Not enough funds. Please top up.' if balance_low?
     @touched_in = true
   end
 
   def touch_out(station)
-    deduct(Journey::FARE)
+    deduct(Journey::MIN_FARE)
     @touched_in = false
   end
 
   private
 
-  def fare_low?
-    balance < MIN_FARE
+  def balance_low?
+    balance < MIN_BALANCE
   end
 
   def deduct(amount)
