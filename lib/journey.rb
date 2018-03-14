@@ -8,8 +8,7 @@ class Journey
 
   def initialize(start_location)
     @in_journey = true
-    @current_journey = { start: nil, end: nil }
-    current_journey[:start] = start_location
+    @current_journey = { start: start_location, end: nil }
   end
 
   def self.journey_history
@@ -26,6 +25,6 @@ class Journey
   end
 
   def in_journey?
-    in_journey
+    !current_journey[:end]
   end
 end
