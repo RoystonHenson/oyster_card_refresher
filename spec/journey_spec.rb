@@ -51,10 +51,4 @@ describe Journey do
       end
     end
   end
-
-  it 'has an empty list of journeys' do
-    expect(described_class.journey_history).to eq([])
-  end
-
-
 end

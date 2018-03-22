@@ -5,11 +5,13 @@ describe Oystercard do
   let(:station_2) { double('Tottenham Court Road') }
 
   describe '#initialize' do
-    it 'initialises with a balance' do
+    it 'has a balance' do
       expect(subject.balance).to eq(Oystercard::START_BALANCE)
     end
 
-
+    it 'has a travel history' do
+      expect(subject.travel_history).to eq([])
+    end
   end
 
   describe '#top_up' do
@@ -32,8 +34,6 @@ describe Oystercard do
         allow(subject).to receive(:balance).and_return(0.99)
         expect { subject.touch_in(station) }.to raise_error('Not enough funds. Please top up.')
       end
-
-
     end
   end
 
@@ -48,12 +48,6 @@ describe Oystercard do
         subject.touch_in(station)
         expect { subject.touch_out(station_2) }.to change { subject.balance }.by(-Journey::MIN_FARE)
       end
-
-
-
-
     end
   end
-
-
 end

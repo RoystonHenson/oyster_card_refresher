@@ -2,7 +2,7 @@ require_relative 'station'
 require_relative 'journey'
 
 class Oystercard
-  attr_reader :balance, :touched_in
+  attr_reader :balance, :touched_in, :travel_history
 
   START_BALANCE = 5
   MAX_BALANCE = 90
@@ -11,6 +11,7 @@ class Oystercard
   def initialize
     @balance = START_BALANCE
     @touched_in = false
+    @travel_history = []
   end
 
   def top_up(amount)
